@@ -1,13 +1,16 @@
-package main
+package backcode
 
 import (
 	"context"
 	"fmt"
+	"goappex"
 	"log"
 	"net/http"
 	"os"
 	"syscall"
 	"time"
+
+	_ "goappex/frontcode"
 
 	"github.com/gin-gonic/gin"
 	"github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -15,29 +18,16 @@ import (
 	"github.com/maxence-charriere/go-app/v9/pkg/errors"
 )
 
-type hello struct {
-	app.Compo
+func init() {
+	goappex.Mainback = mainback
 }
 
-func (h *hello) Render() app.UI {
-	return app.Div().Body(
-		app.Div().Class("image-title").Body(
-			app.Img().
-				Alt("butterfly").
-				Src("/web/logo2.png").
-				Width(400).Height(300),
-		),
-		app.Div().Body(
-			app.H1().Class("hello-title").Text("Hello World!"),
-		))
-}
+func mainback() {
 
-func main() {
-
-	hF := &hello{}
-	app.Route(helloPath, hF)
-
-	app.RunWhenOnBrowser()
+	if goappex.Mainfront == nil {
+		panic("cant find front code logic")
+	}
+	goappex.Mainfront()
 
 	ctx, cancel := cli.ContextWithSignals(context.Background(),
 		os.Interrupt,
@@ -59,7 +49,7 @@ func main() {
 		Styles: []string{
 			"/web/hello-main.css",
 		},
-		Title: "hello exampler",
+		Title: "hello exampler 2",
 	}
 
 	if useGin {
@@ -70,7 +60,7 @@ func main() {
 			hB.ServeHTTP(c.Writer, c.Request)
 		}
 
-		r.GET(helloPath, foo)
+		r.GET(goappex.HelloPath, foo)
 		r.GET("/web/hello-main.css", foo)
 		r.GET("/favicon.ico", foo)
 		r.GET("/web/logo2.png", foo)
@@ -108,7 +98,7 @@ func main() {
 		fmt.Println("*** ended ***")
 
 	} else {
-		http.Handle(helloPath, hB)
+		http.Handle(goappex.HelloPath, hB)
 
 		fmt.Println("started")
 		if err := http.ListenAndServe(":8000", nil); err != nil {
@@ -118,8 +108,6 @@ func main() {
 }
 
 var (
-	helloPath = "/"
-	// helloPath = "/helo"
 	// useGin = false
 	useGin = true
 )
