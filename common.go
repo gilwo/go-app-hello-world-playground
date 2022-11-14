@@ -1,7 +1,8 @@
 package goappex
 
 var (
-	HelloPath = "/"
+	WebrtcExPath = "/webrtc"
+	HelloPath    = "/"
 	// helloPath = "/helo"
 	Mainfront func()
 	Mainback  func()

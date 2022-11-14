@@ -52,6 +52,16 @@ func mainback() {
 		Title: "hello exampler 2",
 	}
 
+	webrtcB := &app.Handler{
+		Name:        "webrtc example",
+		Description: "webrtc example",
+		Styles: []string{
+			"/web/webrtc.css",
+			"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
+		},
+		Title: "webrtc wasm example",
+	}
+
 	if useGin {
 		r := gin.Default()
 
@@ -59,9 +69,15 @@ func mainback() {
 			fmt.Printf("requestd path : %s\n", c.Request.URL)
 			hB.ServeHTTP(c.Writer, c.Request)
 		}
+		bar := func(c *gin.Context) {
+			fmt.Printf("requestd path : %s\n", c.Request.URL)
+			webrtcB.ServeHTTP(c.Writer, c.Request)
+		}
 
+		r.GET(goappex.WebrtcExPath, bar)
 		r.GET(goappex.HelloPath, foo)
 		r.GET("/web/hello-main.css", foo)
+		r.GET("/web/webrtc.css", foo)
 		r.GET("/favicon.ico", foo)
 		r.GET("/web/logo2.png", foo)
 		r.GET("/web/logo.png", foo)
@@ -77,7 +93,7 @@ func mainback() {
 			Addr:    ":8000",
 			Handler: r,
 		}
-		fmt.Println("*** started ***")
+		fmt.Printf("*** started on <%v> ***", srv.Addr)
 		go func() {
 			<-ctx.Done()
 			// fmt.Println("someone invoked cancel")
