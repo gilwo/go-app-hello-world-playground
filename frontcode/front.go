@@ -31,7 +31,7 @@ func mainfront() {
 
 	hF := &hello{}
 	app.Route(goappex.HelloPath, hF)
-	app.Route(goappex.WebrtcExPath, newWebrtcEx())
+	app.Route(goappex.WebrtcDataChannelsPath, newWebrtcDataChannels())
 
 	app.RunWhenOnBrowser()
 

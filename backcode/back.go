@@ -52,14 +52,14 @@ func mainback() {
 		Title: "hello exampler 2",
 	}
 
-	webrtcB := &app.Handler{
-		Name:        "webrtc example",
-		Description: "webrtc example",
+	webrtcDCB := &app.Handler{
+		Name:        "webrtc data channels example",
+		Description: "webrtc data channels front side for the example within pion : https://github.com/pion/webrtc/blob/master/examples/data-channels ",
 		Styles: []string{
 			"/web/webrtc.css",
 			"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css",
 		},
-		Title: "webrtc wasm example",
+		Title: "webrtc data-channels wasm example",
 	}
 
 	if useGin {
@@ -71,10 +71,10 @@ func mainback() {
 		}
 		bar := func(c *gin.Context) {
 			fmt.Printf("requestd path : %s\n", c.Request.URL)
-			webrtcB.ServeHTTP(c.Writer, c.Request)
+			webrtcDCB.ServeHTTP(c.Writer, c.Request)
 		}
 
-		r.GET(goappex.WebrtcExPath, bar)
+		r.GET(goappex.WebrtcDataChannelsPath, bar)
 		r.GET(goappex.HelloPath, foo)
 		r.GET("/web/hello-main.css", foo)
 		r.GET("/web/webrtc.css", foo)
