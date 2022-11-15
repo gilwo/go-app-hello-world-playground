@@ -3,9 +3,6 @@ package frontcode
 import (
 	"fmt"
 	"io"
-	"syscall/js"
-
-	// "syscall/js"
 	"time"
 
 	app "github.com/maxence-charriere/go-app/v9/pkg/app"
@@ -371,7 +368,7 @@ func (w *webrtcEx) startSessionFunc(ctx app.Context, e app.Event) {
 	el := app.Window().GetElementByID("remoteSessionDescription")
 	sd := el.Get("value").String()
 	if sd == "" {
-		js.Global().Call("alert", "Session Description must not be empty")
+		app.Window().Call("alert", "Session Description must not be empty")
 		return
 	}
 
@@ -385,7 +382,7 @@ func (w *webrtcEx) sendMessageFunc(ctx app.Context, e app.Event) {
 	el := app.Window().GetElementByID("message")
 	message := el.Get("value").String()
 	if message == "" {
-		js.Global().Call("alert", "Message must not be empty")
+		app.Window().Call("alert", "Message must not be empty")
 		return
 	}
 	if err := w.sendChannel.SendText(message); err != nil {
