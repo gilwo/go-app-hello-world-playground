@@ -1,0 +1,22 @@
+    .wrapper {
+        text-align: center;
+    }
+    button {
+        width: 220;
+        margin-right: 2px;
+    }
+    textarea {
+        font-family: monospace;
+        min-height: 200px;
+    }
+    .form-control[readonly] {
+        background-color: #ffffff;
+    }
+    .no-left-padding {
+         padding-left: 0 !important;
+         margin: 0 !important;
+    }
+    .no-right-padding {
+         padding-right: 0 !important;
+         margin: 0 !important;
+    }
