@@ -17,15 +17,29 @@ type webrtcDataChannels struct {
 
 	peerConnection *webrtc.PeerConnection
 	sendChannel    *webrtc.DataChannel
+	disableStart   bool
 }
 
 const messageSize = 15
 
 func (w *webrtcDataChannels) Render() app.UI {
 	fmt.Println("render invoked")
+
 	return app.Div().
 		Class("wrapper").
 		Body(
+			app.Div().Body(
+				app.Button().
+					ID("start").
+					Class("btn btn-primary").
+					Body(
+						app.Text("start ..."),
+					).
+					OnClick(func(ctx app.Context, e app.Event) {
+						ctx.Async(w.startWebrtc)
+						w.disableStart = true
+					}).Disabled(w.disableStart),
+			),
 			app.Text("Browser base64 Session Description"), app.Br(),
 
 			app.Textarea().
@@ -93,8 +107,7 @@ func newWebrtcDataChannels() *webrtcDataChannels {
 	return r
 }
 
-func (w *webrtcDataChannels) OnInit() {
-	fmt.Println("oninit invoked")
+func (w *webrtcDataChannels) startWebrtc() {
 
 	var err error
 	// Configure and create a new PeerConnection.
